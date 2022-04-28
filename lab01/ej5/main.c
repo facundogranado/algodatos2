@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
+#include "mybool.h"
 #include "array_helpers.h"
 
 

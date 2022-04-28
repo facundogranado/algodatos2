@@ -1,8 +1,8 @@
 #include <stdio.h>    /* printf()...             */
-#include "boolean.h"  /* boolean, true, false... */
+#include "mybool.h"  /* boolean, true, false... */
 
 int main(void) {
-    boolean b1,b2,b3, b4;
+    mybool b1,b2,b3, b4;
     b1 = true;
     b2 = false;
     b3 = b1 || b2;

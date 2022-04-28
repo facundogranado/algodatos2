@@ -11,7 +11,7 @@
 /* Then, this project's includes, alphabetically ordered */
 #include "array_helpers.h"
 //#include "weather_utils.h"
-
+#include "weather_utils.h"
 /**
  * @brief print usage help
  * @param[in] program_name Executable name
@@ -41,7 +41,7 @@ char *parse_filepath(int argc, char *argv[]) {
     /* Parse the filepath given by command line argument. */
     char *result = NULL;
 
-    if (argc < 2) {
+    if (argc < 2){
         print_help(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -50,6 +50,8 @@ char *parse_filepath(int argc, char *argv[]) {
 
     return (result);
 }
+
+
 
 /**
  * @brief Main program function
@@ -72,9 +74,18 @@ int main(int argc, char *argv[]) {
     array_from_file(array, filepath);
 
     /* show the ordered array in the screen */
-    array_dump(array);
+    //array_dump(array);
+    printf("\nLa menor temperatura es: %i\n",min_tem(array));
 
-   //printf("La menor temperatura es: %i\n",min_tem(array));
+    int b[YEARS];
+    may_tem_max_year(array,b);
+    dump_year_temp_array(b);
+   
+    t_month a[MONTHS];
+    mon_prec_max_year(array,a);
+    dump_year_month_array(a);
+
+    
 
     return (EXIT_SUCCESS);
 }

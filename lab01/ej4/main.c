@@ -61,11 +61,11 @@ int main(int argc, char *argv[]) {
 
     if (array_is_sorted(array,length))
     {
-        printf("\nARREGLO ESTA ORDENADO");
+        printf("\nARREGLO ESTA ORDENADO\n");
     }
     else
     {
-        printf("\nARREGLO NO ORDENADO");
+        printf("\nARREGLO NO ORDENADO\n");
     }
     
     

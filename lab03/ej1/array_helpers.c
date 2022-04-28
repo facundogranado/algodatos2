@@ -40,8 +40,8 @@ void array_dump(WeatherTable a) {
 
 
 void array_from_file(WeatherTable array, const char *filepath) {
+    
     FILE *file = NULL;
-
     file = fopen(filepath, "r");
     if (file == NULL) {
         fprintf(stderr, "File does not exist.\n");
@@ -62,4 +62,33 @@ void array_from_file(WeatherTable array, const char *filepath) {
     }
     fclose(file);
 
+}
+
+
+void dump_year_temp_array(int a[YEARS]) {
+  for(unsigned int year=0; year<YEARS; ++year) {
+    printf("%d: %u\n", year+FST_YEAR, a[year]);
+  }
+}
+
+void dump_year_month_array(t_month a[YEARS]) {
+
+  // Months map
+  char* months[MONTHS] = {
+    "january", 
+    "february", 
+    "march", 
+    "april", 
+    "may", 
+    "june", 
+    "july", 
+    "august", 
+    "september", 
+    "october", 
+    "november", 
+    "december"
+  };
+  for(unsigned int year=0; year<YEARS; ++year) {
+    printf("%d: %s\n", year+FST_YEAR, months[a[year]]);
+  }
 }

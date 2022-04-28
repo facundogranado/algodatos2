@@ -61,26 +61,16 @@ bool array_is_sorted(int a[], unsigned int max_size){
 
     bool res=true;
 
-
     if (max_size==0){
-        
-    }
-    
-    else{
-
+    }else{
         for (unsigned int i = 0; i < max_size-1 && res; i++){
-       
             if (a[i]<= a[i+1]){
-            
             }
             else{
                 res=false;
             }
-        
         }
     }
 
-
 return res;
-
 }

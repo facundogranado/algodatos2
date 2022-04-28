@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "mybool.h"
+#include "array_helpers.h"
 
 
 /* Maximum allowed length of the array */
@@ -38,17 +40,14 @@ char *parse_filepath(int argc, char *argv[]) {
     return (result);
 }
 
-unsigned int array_from_file(int array[],
-           unsigned int max_size,
-           const char *filepath) {
-    //your code here!!!
+unsigned int array_from_file(int array[],unsigned int max_size,const char *filepath);
 
-}
+void array_dump(int a[], unsigned int length);
 
-void array_dump(int a[], unsigned int length) {
-    //your code here!!!!!
-}
+void array_swap(int a[], unsigned int i, unsigned int j);
 
+void array_invert(int a[],int length);
+     
 
 int main(int argc, char *argv[]) {
     char *filepath = NULL;
@@ -61,9 +60,18 @@ int main(int argc, char *argv[]) {
     
     /* parse the file to fill the array and obtain the actual length */
     unsigned int length = array_from_file(array, MAX_SIZE, filepath);
-    
+    array_invert(array,length);
     /*dumping the array*/
     array_dump(array, length);
     
+    
+    if (array_is_sorted(array,length))
+    {
+        printf("\nARREGLO ESTA ORDENADO");
+    }
+    else
+    {
+        printf("\nARREGLO NO ORDENADO");
+    }
     return (EXIT_SUCCESS);
 }

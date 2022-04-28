@@ -1,5 +1,5 @@
 #include "array_helpers.h"
-#include "boolean.h"
+#include "mybool.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,26 +55,18 @@ void array_dump(int a[], unsigned int length) {
 
 }
 
-boolean array_is_sorted(int a[], unsigned int max_size){
+mybool array_is_sorted(int a[], unsigned int max_size){
 
-    boolean res=true;
+    mybool res=true;
 
-    for (unsigned int i = 0; i < max_size-1 && res==true; i++)
-    {
-       
-        if (a[i]<= a[i+1])
-        {
-            res=true;
-        }
-        else
-        {
+    for (unsigned int i = 0; i < max_size-1 && res; i++){
+    
+        if (a[i]<= a[i+1]){
+
+        }else{
             res=false;
         }
-        
     }
    
-
-
 return res;
-
 }

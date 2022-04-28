@@ -1,0 +1,7 @@
+Comando Comprimir 
+tar -czvf LAB02_FACUNDO_GRANADO.tar.gz lab02
+
+Comando Compilar
+gcc -Wall -Werror -Wextra -pedantic -std=c99 -c array_helpers.c sort.c main.c
+gcc -Wall -Werror -Wextra -pedantic -std=c99 -no-pie array_helpers.o sort.o sort_helpers.o main.o -o sorter
+

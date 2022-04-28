@@ -38,7 +38,6 @@ char *parse_filepath(int argc, char *argv[]) {
 }
 
 unsigned int array_from_file(int array[],unsigned int max_size,const char *filepath) {
-    //your code here!!!
 
     FILE *file=NULL;
     file = fopen(filepath,"r");
@@ -77,7 +76,7 @@ unsigned int array_from_file(int array[],unsigned int max_size,const char *filep
 }
 
 void array_dump(int a[], unsigned int length) {
-    //your code here!!!!!
+
     printf("%u\n",length);
     for (unsigned int i = 0; i < length; i++)
     {
