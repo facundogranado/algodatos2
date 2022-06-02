@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -std=c99 -g
+CFLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -g
 SOURCES = abb.c main.c
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = readtree

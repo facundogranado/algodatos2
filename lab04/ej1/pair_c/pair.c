@@ -1,5 +1,6 @@
 #include "pair.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 struct s_pair_t {
     int fst;
@@ -7,12 +8,12 @@ struct s_pair_t {
 };
 
 pair_t pair_new(int x, int y){
-    pair_t new_pair;
-    new_pair = malloc (sizeof(struct s_pair_t));
+    pair_t new_pair = malloc (sizeof(struct s_pair_t));
     new_pair->fst=x;
     new_pair->snd=y;
     return new_pair;
 }
+
 
 int pair_first(pair_t p){
     return p->fst;
@@ -28,6 +29,8 @@ pair_t pair_swapped(pair_t p){
 
 pair_t pair_destroy(pair_t p){
     free(p);
-    p=NULL;
     return p;
 }
+
+
+

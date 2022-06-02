@@ -22,8 +22,8 @@ unsigned int string_length(string str) {
 }
 
 bool string_less(const string str1, const string str2) {
-    int cmp = strcmp(str1->content, str2->content);
-    return cmp < 0;
+     int cmp =  strcmp(str1->content,str2->content);
+    return cmp<0;
 }
 
 bool string_eq(const string str1, const string str2) {

@@ -4,8 +4,6 @@
 #include <stdlib.h>
 
 #include "abb.h" /* TAD abb */
-
-
 void print_help(char *program_name) {
     /* Print the usage help of this program. */
     printf("Usage: %s <input file path>\n\n",
@@ -69,13 +67,94 @@ int main(int argc, char *argv[]) {
     abb tree = abb_from_file(filepath);
 
     /*dumping the tree*/
-    abb_dump(tree);
-    printf("\n");
-    printf("raiz: %d\n minimo: %d\n maximo: %d\n", abb_root(tree),
-                                                   abb_min(tree),
-                                                   abb_max(tree));
-    printf("lengt: %i",abb_length(tree));
-    tree = abb_destroy(tree);
+
+    /*
+     * Modificar e implementar con un ciclo una interfaz que permita al usuario
+     * realizar una de las siguientes operaciones en cada iteración:
+     *
+     * 1 ........ Mostrar árbol por pantalla
+     * 2 ........ Agregar un elemento
+     * 3 ........ Eliminar un elemento
+     * 4 ........ Chequear existencia de elemento
+     * 5 ........ Mostrar longitud del árbol
+     * 6 ........ Mostrar raiz, máximo y mínimo del árbol
+     * 7 ........ Salir
+     *
+     * Se debe solicitar un número de entrada para realizar una de las acciones.
+     *
+     * Para las opciones 2, 3 y 4 se le deberá pedir al usuario que ingrese el
+     * elemento a agregar, eliminar o chequear respectivamente.
+     *
+     * Al salir debe liberarse toda la memoria utilizada.
+     *
+     */
+
+    printf("\nChoose what you want to do. Options are:\n"
+           "\n"
+           "\t**************************************************************\n"
+           "\t* 1: Mostrar árbol por pantalla                               *\n"
+           "\t* 2: Agregar un elemento                                      *\n"
+           "\t* 3: Eliminar un elemento                                     *\n"
+           "\t* 4: Chequear existencia de elemento                          *\n"
+           "\t* 5: Mostrar longitud del árbol                               *\n"
+           "\t* 6: Mostrar raiz, máximo y mínimo del árbol                  *\n"
+           "\t* 7: Salir                                                    *\n"
+           "\t**************************************************************\n"
+           "\nPlease enter your choice: ");
+
+    int option;
+     
+    do {
+        scanf("%i",&option);
+        switch (option) {
+            case 1:
+                     abb_dump(tree);
+                     printf("\n");
+                break;
+            case 2:
+                    printf("Ingrese el elemento a agregar\n");
+                    int e;
+                    scanf("%i",&e);
+                    abb_add(tree,e);
+                    printf("Elemento %i agregado\n",e);
+                break;
+            case 3:
+                printf("Ingrese el elemento eliminar\n");
+                int x;
+                scanf("%i",&x);
+                abb_remove(tree,x);
+                break;
+            case 4:
+                printf("Ingrese el elemento chequear su existencia\n");
+                    int y;
+                    scanf("%i",&y);
+                    if(abb_exists(tree,y)){
+                        printf("El elemento %i se encuenta en el arbol\n",y);
+                    }else{
+                         printf("El elemento %i no se encuenta en el arbol\n",y);
+                    }
+                break;
+            case 5:
+                    printf("La longuitud del arbol es: %u\n",abb_length(tree));
+                break;
+            case 6:
+                        if (!abb_is_empty(tree)) {
+                            printf("\n");
+                            printf("raiz: %d\n minimo: %d\n maximo: %d\n",  abb_root(tree),
+                                                                            abb_min(tree),
+                                                                            abb_max(tree));
+                        } else {
+                            printf("\nÁrbol vacío\n");
+                        }
+                break;
+            case 7:
+                tree = abb_destroy(tree);
+                return (EXIT_SUCCESS);
+            default:
+                printf("\n\"%c\" is invalid. Please choose a valid "
+                       "option.\n\n", option);
+        }
+    } while (option != 7);
 
     return (EXIT_SUCCESS);
 }

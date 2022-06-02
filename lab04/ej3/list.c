@@ -2,161 +2,127 @@
 #include <assert.h>
 #include "list.h"
 
-
 struct _list
 {
     list_elem elem;
     struct _list* next;
 };
 
-
-list empty(void){  
+list empty(void){
     return NULL;
 }
 
+list addl(list_elem e,list l){
+    list new_list = malloc(sizeof(list));
+    new_list->elem=e;
+    new_list->next=l;
+    l=new_list;
+    return l;
+}
 
-list addl(list c,list_elem e){
-    list p = (list)malloc(sizeof(struct _list));
+list destroy(list l){
+    list l_temp = l;
+    while (l !=NULL){
+        l = l->next;
+        free(l_temp);
+        l_temp = l;
+    }
+    l=NULL;
+    return l;
+}
+
+bool is_empty(list l){
+    return l==NULL;
+}
+
+list_elem head(list l){
+    return l->elem;
+}
+
+list tail(list l){
+    list l_temp = l;
+    l = l->next;
+    free(l_temp);
+    return l;
+}
+
+list addr(list_elem e, list l){
+    list p = malloc(sizeof(list));
+    list q = NULL;
     p->elem=e;
-    p->next=c;
-    c=p;
-    return c;
-}
-
-
-list addr(list c, list_elem e){
-   list l_temp = (list)malloc(sizeof(struct _list)),l_aux = c;
-    l_temp ->elem = e;
-    l_temp ->next = NULL;
-
-    if (c == NULL){
-        c = l_temp;
-    }
-    else{
-        while (l_aux ->next){ //equivalent to saying (l_aux->next != NULL)
-        l_aux = l_aux->next;
+    p->next = NULL;
+    if (!is_empty(l)){
+        q=l;
+        while (q->next != NULL){
+            q = q->next;
         }
-    l_aux -> next = l_temp;
+        q->next=p;
+    } else{
+        l = p;
     }
-
-    return c;
+    return l;
 }
 
-
-bool is_empy(list c){
-    return c==NULL;
+int length(list l){
+    list l_temp = l;
+    int temp = 0;
+    while (l_temp != NULL){
+        l_temp = l_temp->next;
+        temp++;
+    }
+    return temp;
 }
 
-
-list_elem head(list c){
-    assert(!is_empy(c));
-    return c->elem;
-}
-
-
-list tail(list c){
-    assert(!is_empy(c));
+list concat(list l, list l0){
     list p;
-    p=c;
-    c=c->next;
-    free(p);
-    return c;
-
-
-}
-
-
-list_elem length(list c){
-    list p;
-    list_elem n=0u;
-    p=c;
-    while (p!=NULL)
-    {
-        n++;
-        p=p->next;
+    if(l==NULL){
+        p=l0;
     }
-    return n;
-}
-
-
-list concat(list c,list e){
-
-    list p;
-
-    if (c==NULL)
-    {
-        p=e;
-    }
-    else if(e==NULL){
-            p=c;   
-    }
-
-    else
-    {
-        p=c;
-        while (p->next)
-        {
+    else if(l0==NULL){
+            p=l;   
+    }else{
+        p=l0;
+        while (p->next){
             p=p->next;
         }
-
-        p->next=e;
-        
+        p->next=l0;
     }
-    
     return p;
 }
 
+list_elem index(list l, int n){
+    list l_temp = l;
+    list_elem elem;
+    int i = 0;
 
-list_elem index(list c, list_elem e){
-    assert(length(c)>e);
-    list p=c;
-    for (int i = 0; i < e; i++)
-    {
-        p=p->next;
+    while (i<n && l_temp!=NULL){
+        l_temp = l_temp->next;
+        i++;
     }
-    return p->elem;
+    elem = l_temp->elem;
+    return elem;
 }
 
-
-list take (list c,list_elem e){
+list take(list l,int n){
     list p;
-    for (int i = 0; i < e; i++)
-    {
-        p=addl(p,c->elem);
+    for (int i = 0; i < n; i++){
+        p=addl(l->elem,p);
     }
-
     return p;
 }
 
-
-list drop(list c, list_elem e){
-    for (int i = 1; i < e; i++)
-    {
-        c = tail(c);
+list drop(list l,int n){
+     for (int i = 1; i < n; i++){
+        l = tail(l);
     }
-    return c;
+    return l;
 }
 
-
-list copy_list(list c){
-    list copy=empty(),c_temp=c;
-    while (c_temp)
-    {
-        copy=addr(copy,c_temp->elem);
-        c_temp=c_temp->next;
+list copy_list(list l){
+    list copy=empty(),l_temp=l;
+    while (l_temp){
+        copy=addr(l_temp->elem,copy);
+        l_temp=l_temp->next;
     }
-    
     return copy;
-}
-
-
-list list_destroy(list c){
-    list l_temp = c;
-    while(c){
-        c = c -> next;
-        free(l_temp);
-        l_temp = c;
-    }
-    c=NULL;
-    return c;
 }

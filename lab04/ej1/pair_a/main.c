@@ -7,7 +7,6 @@ void show_pair(pair_t p) {
     printf("(%d, %d)\n", p.fst, p.snd);
 }
 
-
 int main(void) {
     pair_t p, q;
     // Nuevo par p

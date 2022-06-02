@@ -46,14 +46,15 @@ bool matching_parentheses(FILE * file) {
         letter = fgetc(file);
         if (letter == '(') {
             counter_inc(c);
-        } else if (letter == ')' && counter_is_init(c)) {
+        } else if (counter_is_init(c)) {
             balanced = (letter != ')');
-        } else if (letter == ')' && !counter_is_init(c)) {
+        } else if (letter == ')') {
             counter_dec(c);
         }
     }
+    balanced = balanced && counter_is_init(c);
     counter_destroy(c);
-    return (balanced && counter_is_init(c));
+    return balanced;
 }
 
 int main(int argc, char *argv[]) {

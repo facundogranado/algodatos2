@@ -1,4 +1,6 @@
 #include "pair.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 pair_t pair_new(int x, int y){
     pair_t new_pair={x,y};
@@ -6,21 +8,21 @@ pair_t pair_new(int x, int y){
 }
 
 
-int pair_first(pair_t p){
+int first(pair_t p){
     return p.fst;
 }
 
-
-int pair_second(pair_t p){
+int second(pair_t p){
     return p.snd;
 }
 
-
 pair_t pair_swapped(pair_t p){
-        pair_t swap = {p.snd,p.fst};
-       return swap;
+    return pair_new(p.snd,p.fst);
 }
 
 pair_t pair_destroy(pair_t p){
-        return p;
+    return p;
 }
+
+
+

@@ -9,32 +9,33 @@ struct _counter {
 };
 
 counter counter_init(void) {
-    counter new_counter;
-    new_counter=malloc(sizeof(struct _counter));
+    counter new_counter  = malloc(sizeof(counter));     
     new_counter->count=0u;
-    return new_counter;
+    return new_counter;                                                                                      
 }
 
 void counter_inc(counter c) {
-     ++c->count;
+    c->count ++;
 }
 
 bool counter_is_init(counter c) {
-     return c->count==0u;
+    return c->count == 0;
 }
 
+
 void counter_dec(counter c) {
-        assert(!counter_is_init(c));
-        --c->count;
+    assert(!counter_is_init(c));
+    c->count--;
 }
 
 counter counter_copy(counter c) {
-        counter copy = malloc(sizeof(struct _counter));
-        copy->count=c->count;
-        return copy;    
+    counter copy = malloc(sizeof(counter));
+    copy->count = c->count;
+    return copy;
+
 }
 
 void counter_destroy(counter c) {
-     free(c);
-     c=NULL;
+    free(c);
+    c=NULL;
 }

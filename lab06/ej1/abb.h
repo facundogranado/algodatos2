@@ -29,7 +29,6 @@ bool abb_is_empty(abb tree);
  *
  * PRE : {tree --> ABB}
  *     is_empty = abb_is_empty(tree);
- * POS : {tree --> ABB && is_empty == (abb_length(tree) == 0)}
  */
 
 bool abb_exists(abb tree, abb_elem e);
@@ -44,7 +43,7 @@ unsigned int abb_length(abb tree);
  *
  * PRE : {tree --> ABB}
  *     length = abb_length(tree);
- * POS : {tree --> ABB && (abb_is_empty(tree) || abb_length(tree) > 0)}
+ * POS : {tree --> ABB && (abb_is_empty(tree) || length > 0)}
  */
 
 abb abb_remove(abb tree, abb_elem e);

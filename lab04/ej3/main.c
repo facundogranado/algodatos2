@@ -33,29 +33,26 @@ char *parse_filepath(int argc, char *argv[]) {
 
 
 float average(list l) {
-        int largo;
-        list laux;
-        float r;
-        laux = copy_list(l);
-        r=0.0;
-        largo = length(l);
-        while (!is_empy(laux)) {
+        list laux = copy_list(l);
+        float r = 0.0;
+        while (!is_empty(laux)){
             r+=head(laux);
             laux=tail(laux);
         }
-
-        list_destroy(laux);
-        r=r/largo;
-
+        destroy(laux);
+        r=r/length(l);
       return r;  
 }
 
 list array_to_list(int array[], unsigned int length) {
-        list l=empty();
+    /* Initialize the list */
+    list new_list = empty();
     for (unsigned int i = 0u; i < length; ++i) {
-        l= addr(l,array[i]);
+        /* Add element to the list  */
+        new_list = addr(array[i],new_list);
     }
-    return l;
+    /* Return list */
+    return new_list;
 }
 
 int main(int argc, char *argv[]) {
@@ -78,8 +75,6 @@ int main(int argc, char *argv[]) {
 
     /* call the average function */
     printf("The average is: %.2f \n", average(l));
-    
-    list_destroy(l);
 
     return (EXIT_SUCCESS);
 }

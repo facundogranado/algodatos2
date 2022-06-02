@@ -18,7 +18,7 @@ void print_help(char *program_name) {
            "The input file must have the following format:\n"
            " * The first line must contain only a positive integer,"
            " which is the length of the array.\n"
-           " * The second line must contain the members of the array"
+               " * The second line must contain the members of the array"
            " separated by one or more spaces. Each member must be an integer."
            "\n\n"
            "In other words, the file format is:\n"
@@ -41,37 +41,34 @@ char *parse_filepath(int argc, char *argv[]) {
     return (result);
 }
 
-stack array_to_stack(int array[], unsigned int length) {
-        stack l=stack_empty();
-    for (unsigned int i = 0u; i < length; ++i) {
-        l= stack_push(l,array[i]);
-    }
-    return l;
-}
-
 int main(int argc, char *argv[]) {
-  char *filepath = NULL;
+    char *filepath = NULL;
 
-  /* parse the filepath given in command line arguments */
-  filepath = parse_filepath(argc, argv);
+    /* parse the filepath given in command line arguments */
+    filepath = parse_filepath(argc, argv);
 
-  /* create an array of MAX_SIZE elements */
-  int array[MAX_SIZE];
+    /* create an array of MAX_SIZE elements */
+    int array[MAX_SIZE];
 
-  /* parse the file to fill the array and obtain the actual length */
-  unsigned int length = array_from_file(array, MAX_SIZE, filepath);
-  printf("Original: ");
-  array_dump(array, length);
-  int *new_array=NULL;
-  stack l= array_to_stack(array,length);
-  new_array=calloc(length,sizeof(stack_elem));
-  for (unsigned int i = 0u; i < length; i++)
-  {
-      new_array[i]=stack_top(l);
-      l=stack_pop(l);
-  }
-  stack_destroy(l);
-  printf("Reversed: ");
-  array_dump(new_array, length);
-  return (EXIT_SUCCESS);
+    /* parse the file to fill the array and obtain the actual length */
+    unsigned int length = array_from_file(array, MAX_SIZE, filepath);
+    printf("Original: ");
+    array_dump(array, length);
+
+    int *new_array=NULL;
+    stack new_stack = stack_empty();
+    new_array = calloc(length,sizeof(stack_elem));
+    for (unsigned int i = 0; i < length; i++){
+        new_stack = stack_push(new_stack,array[i]);
+    }
+
+    for (unsigned int i = 0; i < length; i++){
+        new_array[i] = stack_top(new_stack);
+        new_stack = stack_pop(new_stack);
+    }
+        
+    printf("Reversed: ");
+    array_dump(new_array, length);
+    free(new_array);
+    return (EXIT_SUCCESS);
 }

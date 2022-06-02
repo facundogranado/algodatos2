@@ -9,140 +9,149 @@ struct _node_t {
     key_t key;
     value_t value;
 };
+static bool check_greater(key_t key, dict_t d){
+    bool value = true;
+    if(d != NULL){
+        value =string_less(d->key,key) 
+        && check_greater(key,d->left)
+        && check_greater(key,d->right);
+    }
+    return value;
+}
 
+static bool check_smaller(key_t key,dict_t d){
+    bool value = true;
+    if(d != NULL){
+        value = string_less(key,d->key)
+        && check_smaller(key,d->left)
+        && check_smaller(key,d->right);
+    }
+    return value;
+}
 static bool invrep(dict_t d) {
-    /* needs implementation */
-    return true;
+    bool valid = false;
+    if(d == NULL){
+        valid = true;
+    }else{
+        valid = check_greater(d->key,d->left) 
+        && check_smaller(d->key,d->right)
+        && invrep(d->left)
+        && invrep(d->right);
+    }
+    return valid;
 }
 
 dict_t dict_empty(void) {
     dict_t dict = NULL;
-    /* needs implementation */
+    assert(invrep(dict) && dict_length(dict)==0);
     return dict;
 }
 
 dict_t dict_add(dict_t dict, key_t word, value_t def) {
-    
-    
-    if (dict==NULL)
-    {
-       dict=malloc(sizeof(struct _node_t));
-       dict->key=word;
-       dict->value=def;
-       dict->left=NULL;
-       dict->right=NULL;
-
-    }
-    else if(key_less(word,dict->key)){
+    assert(invrep(dict));
+    if(dict == NULL){
+        dict = malloc(sizeof(struct _node_t));
+        dict->key=word;
+        dict->value=def;
+        dict->left=NULL;
+        dict->right=NULL;
+    }else if(string_eq(dict->key,word)){
+        dict->value=def;
+    }else if(string_less(word,dict->key)){
         dict->left=dict_add(dict->left,word,def);
-    }   
-    else if(key_less(dict->key,word)){
+    }else if(string_less(dict->key,word)){
         dict->right=dict_add(dict->right,word,def);
     }
-    else{
-        dict->value=value_destroy(dict->value);
-        dict->value=def;
-    }
+    assert(invrep(dict) && string_eq(def,dict_search(dict,word)));
     return dict;
 }
 
 value_t dict_search(dict_t dict, key_t word) {
+    assert(invrep(dict));
+
     key_t def=NULL;
-    if (dict!=NULL)
-    {
-        if(key_eq(dict->key,word)){
-            def=dict->value;
-        }
-        else if(key_less(word,dict->key)){
+    if(dict !=NULL){
+        if(string_eq(dict->key,word)){
+            def = dict->value;
+        }else if(string_less(word,dict->key)){
             def=dict_search(dict->left,word);
-        }
-        else if(key_less(word,dict->key)){
+        }else if(string_less(dict->key,word)){
             def=dict_search(dict->right,word);
         }
     }
-    
+    assert((def!=NULL) == (dict_exists(dict,word)));
     return def;
 }
 
 bool dict_exists(dict_t dict, key_t word) {
-    bool exists=false;
+    assert(invrep(dict));
+    bool exist=false;
     if(dict!=NULL){
-        exists = key_eq(dict->key,word) || dict_exists(dict->left,word) || dict_exists(dict->right,word);
+        if(string_eq(dict->key,word)){
+            exist=true;
+        }else if(string_less(word,dict->key)){
+            exist = dict_exists(dict->left,word);
+        }else if(string_less(dict->key,word)){
+            exist=dict_exists(dict->right,word);
+        }
     }
-    return exists;
+    assert(invrep(dict));
+    return exist;
 }
 
 unsigned int dict_length(dict_t dict) {
     unsigned int length=0;
-    if (dict !=NULL)
-    {
+    assert(invrep(dict));
+    if(dict!=NULL){
         length++;
-        length+=dict_length(dict->left);
-        length+=dict_length(dict->right);
+        length += dict_length(dict->left);
+        length += dict_length(dict->right);
     }
+
     return length;
 }
-
-static dict_t dict_min(dict_t dict){
-    dict_t min = NULL;
-    if(dict->left!=NULL){
-        min = dict_min(dict->left);
+key_t dict_max(dict_t d) {
+    key_t max_d;
+    assert(invrep(d));
+    while(d->right!=NULL){
+        d = d->right;
     }
-    else{
-        min = dict;
-    }
-    return min;
-} 
+    max_d = d->key;
+    return max_d;
+}
 
 dict_t dict_remove(dict_t dict, key_t word) {
-    if(key_eq(dict->key,word)){
-         if ((dict->left==NULL) && (dict->right==NULL)) {
-            dict->key=key_destroy(dict->key);
-            dict->value=value_destroy(dict->value);
-            free(dict);
-            dict=NULL;
-        }
-        else if(dict->left==NULL){
-            dict_t aux=dict;
-            dict=dict->right;
-            aux->key=key_destroy(aux->key);
-            aux->value=value_destroy(aux->value);
-            free(aux);
-        }
-        else if(dict->right==NULL){
-            dict_t aux=dict;
-            dict=dict->left;
-            aux->key=key_destroy(aux->key);
-            aux->value=value_destroy(aux->value);
-            free(aux);
-        }
-        else{
-           dict_t aux= dict_min(dict->right);
-           dict->key=key_destroy(dict->key);
-           dict->value=value_destroy(dict->value);
-           dict->key=aux->key;
-           dict->value=aux->value;
-           dict->right=dict_remove(dict->right,aux->key);
-        } 
-    } 
-    else { 
-         if (key_less(word,dict->key))
-        {
+     assert(invrep(dict));
+    if(dict != NULL){
+        if(string_eq(dict->key,word)){
+            if ((dict->left == NULL) && (dict->right == NULL)){
+                free(dict);
+                dict=NULL;
+            }else if(dict->left == NULL && dict->right != NULL){
+                dict=dict->right;
+
+            }else if(dict->left != NULL && dict->right == NULL){
+                dict = dict->left;
+     
+            }else{
+                dict->key=dict_max(dict->left);
+                dict->left=dict_remove(dict->left,dict_max(dict->left));
+            }
+            
+        }else if(string_less(word,dict->key)){
             dict->left=dict_remove(dict->left,word);
-        }
-        else if(key_less(dict->key,word)){
+        } else if(string_less(dict->key,word)){
             dict->right=dict_remove(dict->right,word);
         }
-       
     }
-       
+    assert(invrep(dict) && !dict_exists(dict, word));
     return dict;
 }
 
 dict_t dict_remove_all(dict_t dict) {
      if (dict != NULL){
-         dict->key = key_destroy(dict->key);
-        dict->value = value_destroy(dict->value);
+        dict->key = string_destroy(dict->key);
+        dict->value = string_destroy(dict->value);
         dict->left = dict_remove_all(dict->left);
         dict->right = dict_remove_all(dict->right);
         free (dict);
@@ -166,7 +175,7 @@ dict_t dict_destroy(dict_t dict) {
      if (dict != NULL){
         dict_destroy(dict->left);
         dict_destroy (dict->right);
-        free(dict);
+        dict_remove_all(dict);
         dict = NULL;
     }
     return dict;

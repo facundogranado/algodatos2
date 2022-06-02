@@ -12,6 +12,8 @@ pair_t pair_new(int x, int y);
 /*
  * DESC: Creates a new pair with components (x, y)
  *
+ * p = pair_new(x, y);
+ *
  * POS: {p --> (x, y)}
  */
 

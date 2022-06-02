@@ -4,9 +4,14 @@
 
 int main(void){
 
-    string cadena,cadena2;
+    char *cadena,*cadena2;
+    cadena="holae";
+    cadena2= "holaa";
+    string s1= string_create(cadena);
+    string s2= string_create(cadena2);
     
-    printf ("%i:  ",string_eq(cadena,cadena2));
+    printf ("%i:  \n",string_eq(s1,s2));
+    printf ("%i:  \n",string_less(s1,s2));
 
 
 

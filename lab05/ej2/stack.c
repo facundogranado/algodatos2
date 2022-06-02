@@ -8,31 +8,28 @@ struct _s_stack {
     unsigned int capacity;  // Capacidad actual del arreglo elems
 };
 
-
 stack stack_empty(){
     return NULL;
 }
 
 stack stack_push(stack s, stack_elem e){
     if(s==NULL){
-        s=malloc(sizeof(struct _s_stack));
+        s = malloc(sizeof(struct _s_stack));
         s->capacity=1u;
         s->size=0u;
         s->elems=calloc(s->capacity,sizeof(stack_elem));
-    }else if(s->size == s->capacity){
+    }else if(s->capacity==s->size){
         s->capacity *=2;
-        s->elems=realloc(s->elems,(s->capacity) * sizeof(stack_elem));
+        s->elems= realloc(s->elems,(s->capacity)*sizeof(struct _s_stack));
     }
     s->elems[s->size]=e;
-    ++s->size;
+    s->size++;
     return s;
-    
 }
 
 stack stack_pop(stack s){
-    --s->size;
+    s->size--;
     return s;
-
 }
 
 unsigned int stack_size(stack s){
@@ -40,7 +37,7 @@ unsigned int stack_size(stack s){
 }
 
 stack_elem stack_top(stack s){
-    return s->elems;
+    return s->elems[s->size-1];
 }
 
 bool stack_is_empty(stack s){
@@ -48,15 +45,14 @@ bool stack_is_empty(stack s){
 }
 
 stack_elem *stack_to_array(stack s){
-    stack_elem *a=NULL;
-    if (s!=NULL)
-    {
-        a=s->elems;
+    stack_elem *array = NULL;
+    if(s!=NULL){
+        array = s->elems;
     }
-    return a;
+    return array;
 }
 
 stack stack_destroy(stack s){
-    free(s->elems);
+    free(s);
     return s;
 }

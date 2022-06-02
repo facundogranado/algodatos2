@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -g
 SOURCES = string.c main.c
 OBJECTS = $(SOURCES:.c=.o)
-TARGET = string
+TARGET = read
 
 .PHONY: clean
 
